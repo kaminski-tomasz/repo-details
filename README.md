@@ -1,4 +1,4 @@
-# GitHub Details #
+# Description #
 
 This is simple REST service which returns details of given Github repository. Details includes:
 
@@ -8,7 +8,7 @@ This is simple REST service which returns details of given Github repository. De
 * number of stargazers
 * date of creation formatted in requesters local date format
 
-# API #
+# API usage #
 
 The API of the service looks as follows:
 
