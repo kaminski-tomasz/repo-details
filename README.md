@@ -1,6 +1,7 @@
 # GitHub Details #
 
 This is simple REST service which returns details of given Github repository. Details includes:
+
 * full name of repository
 * description of repository
 * git clone url
@@ -12,12 +13,22 @@ This is simple REST service which returns details of given Github repository. De
 The API of the service looks as follows:
 
 Request:
+```
+#!text
 GET /repositories/{owner}/{repository-name}
+```
 
 Response:
+```
+#!json
 {
-"fullName": "...", "description": "...", "cloneUrl": "...", "stars": 0, "createdAt": "..."
+   "fullName": "...", 
+   "description": "...", 
+   "cloneUrl": "...", 
+   "stars": 0, 
+   "createdAt": "..."
 }
+```
 
 # GitHub API #
 
