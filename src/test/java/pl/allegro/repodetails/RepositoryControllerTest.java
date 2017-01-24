@@ -1,5 +1,6 @@
 package pl.allegro.repodetails;
 
+import org.junit.Before;
 import org.junit.Test;
 import pl.allegro.repodetails.controller.RepositoryController;
 import pl.allegro.repodetails.domain.RepositoryDetails;
@@ -14,16 +15,24 @@ public class RepositoryControllerTest {
     private static final String USER_NAME = "fakeUserName";
     private static final String REPO_NAME = "fakeRepoName";
 
+    private RepositoryDetails givenDetails;
+    private RepositoryService repoService;
+    private RepositoryController repoController;
+
+    @Before
+    public void setUp() {
+        givenDetails = mock(RepositoryDetails.class);
+        repoService = mock(RepositoryService.class);
+        repoController = new RepositoryController(repoService);
+    }
+
     @Test
     public void shouldReturnRepositoryDetails() {
-
-        RepositoryDetails givenDetails = mock(RepositoryDetails.class);
-        RepositoryService repoService = mock(RepositoryService.class);
         when(repoService.getRepositoryDetails(USER_NAME, REPO_NAME))
                 .thenReturn(givenDetails);
 
-        RepositoryController repoController = new RepositoryController(repoService);
-        RepositoryDetails resultingDetails = repoController.getRepositoryDetails(USER_NAME, REPO_NAME);
+        RepositoryDetails resultingDetails =
+                repoController.getRepositoryDetails(USER_NAME, REPO_NAME);
 
         assertThat(resultingDetails).isEqualTo(givenDetails);
     }

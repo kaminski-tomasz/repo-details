@@ -22,17 +22,37 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<rest-assured.version>3.0.2</rest-assured.version>
+		<assertj-generator.version>2.0.0</assertj-generator.version>
+		<restito.version>0.9.0</restito.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.xebialabs.restito</groupId>
+			<artifactId>restito</artifactId>
+			<version>${restito.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -69,6 +89,23 @@
 						<include>/**/*IT.java</include>
 					</includes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+				<version>${assertj-generator.version}</version>
+				<configuration>
+					<classes>
+						<param>pl.allegro.repodetails.domain.RepositoryDetails</param>
+					</classes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate-assertions</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
