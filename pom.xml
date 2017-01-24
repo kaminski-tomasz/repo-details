@@ -96,8 +96,8 @@
 				<version>${assertj-generator.version}</version>
 				<configuration>
 					<classes>
-						<param>pl.allegro.repodetails.service.RepositoryDetailsDTO</param>
-						<param>pl.allegro.repodetails.domain.GitHubRepoDetails</param>
+						<param>pl.allegro.repodetails.service.RepositoryDTO</param>
+						<param>pl.allegro.repodetails.domain.Repository</param>
 					</classes>
 				</configuration>
 				<executions>

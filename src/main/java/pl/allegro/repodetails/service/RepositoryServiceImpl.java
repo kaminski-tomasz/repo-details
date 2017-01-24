@@ -1,28 +1,24 @@
 package pl.allegro.repodetails.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import pl.allegro.repodetails.domain.GitHubRepoDetails;
+import pl.allegro.repodetails.domain.Repository;
+import pl.allegro.repodetails.github.GitHubApiClient;
 
 @Service
 public class RepositoryServiceImpl implements RepositoryService {
 
-    private RestTemplate restTemplate;
-    private String apiHost;
+    private GitHubApiClient apiClient;
 
-    public RepositoryServiceImpl(RestTemplate restTemplate, String apiHost) {
-        this.restTemplate = restTemplate;
-        this.apiHost = apiHost;
+    public RepositoryServiceImpl(GitHubApiClient apiClient) {
+        this.apiClient = apiClient;
     }
 
     @Override
-    public RepositoryDetailsDTO getRepositoryDetails(String userName, String repoName) {
+    public RepositoryDTO getRepositoryDetails(String userName, String repoName) {
 
-        GitHubRepoDetails repo =
-                restTemplate.getForObject(String.join("/", apiHost, userName, repoName),
-                    GitHubRepoDetails.class);
+        Repository repo = apiClient.getRepositoryDetails(userName, repoName);
 
-        return RepositoryDetailsDTO.builder()
+        return RepositoryDTO.builder()
                 .fullName(repo.getFullName())
                 .description(repo.getDescription())
                 .cloneUrl(repo.getCloneUrl())

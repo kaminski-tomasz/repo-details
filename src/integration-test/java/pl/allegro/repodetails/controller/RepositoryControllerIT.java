@@ -1,4 +1,4 @@
-package pl.allegro.repodetails;
+package pl.allegro.repodetails.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -7,12 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-import pl.allegro.repodetails.service.RepositoryDetailsDTO;
+import pl.allegro.repodetails.service.RepositoryDTO;
 import pl.allegro.repodetails.service.RepositoryService;
 
 import static io.restassured.RestAssured.given;
@@ -22,8 +26,13 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RepositoryControllerIT {
+
+    @SpringBootConfiguration
+    @EnableAutoConfiguration
+    @Import({RepositoryController.class})
+    static class ContextConfig {}
 
     @LocalServerPort
     private int port;
@@ -31,7 +40,7 @@ public class RepositoryControllerIT {
     @MockBean
     private RepositoryService repositoryService;
 
-    private RepositoryDetailsDTO REPO_DETAILS = RepositoryDetailsDTO.builder()
+    private RepositoryDTO EXPECTED_DTO = RepositoryDTO.builder()
             .fullName("myRepo")
             .build();
 
@@ -43,7 +52,7 @@ public class RepositoryControllerIT {
         RestAssured.port = port;
 
         when(repositoryService.getRepositoryDetails(anyString(), anyString()))
-                .thenReturn(REPO_DETAILS);
+                .thenReturn(EXPECTED_DTO);
     }
 
     @Test

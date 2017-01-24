@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Builder @Data
-public class RepositoryDetailsDTO {
+public class RepositoryDTO {
 
     private String fullName;
     private String description;

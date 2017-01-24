@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GitHubRepoDetails {
+public class Repository {
     private int id;
     private String name;
     private String fullName;
@@ -648,7 +648,7 @@ public class GitHubRepoDetails {
 
     @Override
     public String toString() {
-        return "GitHubRepoDetails{" +
+        return "Repository{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", fullName='" + fullName + '\'' +

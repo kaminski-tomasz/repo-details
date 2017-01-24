@@ -2,58 +2,48 @@ package pl.allegro.repodetails.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.client.RestTemplate;
-import pl.allegro.repodetails.domain.GitHubRepoDetails;
+import pl.allegro.repodetails.domain.Repository;
+import pl.allegro.repodetails.github.GitHubApiClient;
 
-import static org.mockito.Mockito.*;
-import static pl.allegro.repodetails.domain.RepositoryDetailsAssert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static pl.allegro.repodetails.service.RepositoryDTOAssert.assertThat;
 
 public class RepositoryServiceTest {
 
-    private static final String API_HOST = "http://api.github.com/repos";
     private static final String USER_NAME = "octokit";
     private static final String REPO_NAME = "octokit.rb";
-    private static final String CORRECT_URL = String.join("/", API_HOST, USER_NAME, REPO_NAME);
 
-    private static final GitHubRepoDetails GIT_HUB_REPO_DETAILS = GitHubRepoDetails.builder()
-            .fullName("octokit/octokit.rb")
-            .description("Ruby toolkit for the GitHub API")
-            .cloneUrl("https://github.com/octokit/octokit.rb.git")
-            .stargazersCount(2512)
+    private static final Repository REPOSITORY = Repository.builder()
+            .fullName("anyRepository")
+            .description("repoDescription")
+            .cloneUrl("someCloneURL")
+            .stargazersCount(1024)
             .createdAt("2009-12-10T21:41:49Z")
             .build();
 
-    private RestTemplate restTemplate = mock(RestTemplate.class);
+    private GitHubApiClient gitHubApiClient = mock(GitHubApiClient.class);
     private RepositoryService repositoryService;
 
     @Before
     public void setUp() {
-        repositoryService = new RepositoryServiceImpl(restTemplate, API_HOST);
+        repositoryService = new RepositoryServiceImpl(gitHubApiClient);
     }
 
     @Test
-    public void shouldRequestApiWithCorrectUrl() {
-        when(restTemplate.getForObject(CORRECT_URL, GitHubRepoDetails.class))
-                .thenReturn(GIT_HUB_REPO_DETAILS);
+    public void shouldReturnCorrectRepositoryDTO() {
 
-        repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME);
+        when(gitHubApiClient.getRepositoryDetails(USER_NAME, REPO_NAME))
+                .thenReturn(REPOSITORY);
 
-        verify(restTemplate).getForObject(CORRECT_URL, GitHubRepoDetails.class);
-    }
-
-    @Test
-    public void shouldReturnRepositoryDetails() {
-        when(restTemplate.getForObject(CORRECT_URL, GitHubRepoDetails.class))
-                .thenReturn(GIT_HUB_REPO_DETAILS);
-
-        RepositoryDetailsDTO result =
+        RepositoryDTO resultDTO =
                 repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME);
 
-        assertThat(result)
-                .hasFullName(GIT_HUB_REPO_DETAILS.getFullName())
-                .hasDescription(GIT_HUB_REPO_DETAILS.getDescription())
-                .hasCloneUrl(GIT_HUB_REPO_DETAILS.getCloneUrl())
-                .hasStars(GIT_HUB_REPO_DETAILS.getStargazersCount())
-                .hasCreatedAt(GIT_HUB_REPO_DETAILS.getCreatedAt());
+        assertThat(resultDTO)
+                .hasFullName(REPOSITORY.getFullName())
+                .hasDescription(REPOSITORY.getDescription())
+                .hasCloneUrl(REPOSITORY.getCloneUrl())
+                .hasStars(REPOSITORY.getStargazersCount())
+                .hasCreatedAt(REPOSITORY.getCreatedAt());   // fixme
     }
 }
