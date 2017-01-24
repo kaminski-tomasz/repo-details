@@ -1,10 +1,10 @@
-package pl.allegro.repodetails.domain;
+package pl.allegro.repodetails.service;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Builder @Data
-public class RepositoryDetails {
+public class RepositoryDetailsDTO {
 
     private String fullName;
     private String description;

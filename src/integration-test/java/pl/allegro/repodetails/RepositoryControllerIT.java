@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-import pl.allegro.repodetails.domain.RepositoryDetails;
+import pl.allegro.repodetails.service.RepositoryDetailsDTO;
 import pl.allegro.repodetails.service.RepositoryService;
 
 import static io.restassured.RestAssured.given;
@@ -31,7 +31,7 @@ public class RepositoryControllerIT {
     @MockBean
     private RepositoryService repositoryService;
 
-    private RepositoryDetails REPO_DETAILS = RepositoryDetails.builder()
+    private RepositoryDetailsDTO REPO_DETAILS = RepositoryDetailsDTO.builder()
             .fullName("myRepo")
             .build();
 
