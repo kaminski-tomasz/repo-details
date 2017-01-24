@@ -2,12 +2,13 @@ package pl.allegro.repodetails.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.allegro.repodetails.domain.Repository;
 import pl.allegro.repodetails.github.GitHubApiClient;
+import pl.allegro.repodetails.github.domain.Repository;
+import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static pl.allegro.repodetails.service.RepositoryDTOAssert.assertThat;
+import static pl.allegro.repodetails.service.dto.RepositoryDTOAssert.assertThat;
 
 public class RepositoryServiceTest {
 

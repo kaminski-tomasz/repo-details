@@ -1,4 +1,4 @@
-package pl.allegro.repodetails.service;
+package pl.allegro.repodetails.service.dto;
 
 import lombok.Builder;
 import lombok.Data;

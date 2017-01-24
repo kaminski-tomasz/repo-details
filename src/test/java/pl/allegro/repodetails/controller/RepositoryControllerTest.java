@@ -2,7 +2,7 @@ package pl.allegro.repodetails.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.allegro.repodetails.service.RepositoryDTO;
+import pl.allegro.repodetails.service.dto.RepositoryDTO;
 import pl.allegro.repodetails.service.RepositoryService;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -13,10 +13,9 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-import pl.allegro.repodetails.service.RepositoryDTO;
+import pl.allegro.repodetails.service.dto.RepositoryDTO;
 import pl.allegro.repodetails.service.RepositoryService;
 
 import static io.restassured.RestAssured.given;
@@ -32,7 +31,8 @@ public class RepositoryControllerIT {
     @SpringBootConfiguration
     @EnableAutoConfiguration
     @Import({RepositoryController.class})
-    static class ContextConfig {}
+    static class ContextConfig {
+    }
 
     @LocalServerPort
     private int port;
@@ -59,9 +59,9 @@ public class RepositoryControllerIT {
     public void shouldTestWithRestAssuredBDDApproach() {
         given()
                 .header("Accept-Encoding", "application/json")
-        .when()
+                .when()
                 .get("/repository/userName/repoName")
-        .then()
+                .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("fullName", equalTo("myRepo"));
@@ -73,7 +73,7 @@ public class RepositoryControllerIT {
         Response response =
                 given().
                         header("Accept-Encoding", "application/json").
-                when().
+                        when().
                         get("/repository/userName/repoName");
         // then
         assertThat(response.contentType())

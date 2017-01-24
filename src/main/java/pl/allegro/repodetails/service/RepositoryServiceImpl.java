@@ -1,8 +1,9 @@
 package pl.allegro.repodetails.service;
 
 import org.springframework.stereotype.Service;
-import pl.allegro.repodetails.domain.Repository;
+import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.github.GitHubApiClient;
+import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
 @Service
 public class RepositoryServiceImpl implements RepositoryService {

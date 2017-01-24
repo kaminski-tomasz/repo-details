@@ -1,9 +1,9 @@
-package pl.allegro.repodetails.domain;
+package pl.allegro.repodetails.github.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Organization {
+public class Owner {
     private String login;
     private int id;
     private String avatarUrl;
@@ -156,29 +156,6 @@ public class Organization {
 
     public void setSiteAdmin(boolean input) {
         this.siteAdmin = input;
-    }
-
-    @Override
-    public String toString() {
-        return "Organization{" +
-                "login='" + login + '\'' +
-                ", id=" + id +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", gravatarId='" + gravatarId + '\'' +
-                ", url='" + url + '\'' +
-                ", htmlUrl='" + htmlUrl + '\'' +
-                ", followersUrl='" + followersUrl + '\'' +
-                ", followingUrl='" + followingUrl + '\'' +
-                ", gistsUrl='" + gistsUrl + '\'' +
-                ", starredUrl='" + starredUrl + '\'' +
-                ", subscriptionsUrl='" + subscriptionsUrl + '\'' +
-                ", organizationsUrl='" + organizationsUrl + '\'' +
-                ", reposUrl='" + reposUrl + '\'' +
-                ", eventsUrl='" + eventsUrl + '\'' +
-                ", receivedEventsUrl='" + receivedEventsUrl + '\'' +
-                ", type='" + type + '\'' +
-                ", siteAdmin=" + siteAdmin +
-                '}';
     }
 }
 
