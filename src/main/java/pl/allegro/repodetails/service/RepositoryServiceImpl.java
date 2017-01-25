@@ -6,11 +6,11 @@ import pl.allegro.repodetails.github.GitHubApiClient;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
 @Service
-public class RepositoryServiceImpl implements RepositoryService {
+class RepositoryServiceImpl implements RepositoryService {
 
     private GitHubApiClient apiClient;
 
-    public RepositoryServiceImpl(GitHubApiClient apiClient) {
+    RepositoryServiceImpl(GitHubApiClient apiClient) {
         this.apiClient = apiClient;
     }
 

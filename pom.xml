@@ -25,9 +25,15 @@
 		<rest-assured.version>3.0.2</rest-assured.version>
 		<assertj-generator.version>2.0.0</assertj-generator.version>
 		<restito.version>0.9.0</restito.version>
+		<guava.version>21.0</guava.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -77,6 +83,20 @@
 							<sources>
 								<source>src/integration-test/java</source>
 							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-integration-test-resources</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>add-test-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/integration-test/resources</directory>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
