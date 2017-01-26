@@ -1,9 +1,11 @@
 package pl.allegro.repodetails.service;
 
 import org.springframework.stereotype.Service;
-import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.github.GitHubApiClient;
+import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
+
+import java.util.Optional;
 
 @Service
 class RepositoryServiceImpl implements RepositoryService {
@@ -15,17 +17,21 @@ class RepositoryServiceImpl implements RepositoryService {
     }
 
     @Override
-    public RepositoryDTO getRepositoryDetails(String userName, String repoName) {
-
+    public Optional<RepositoryDTO> getRepositoryDetails(String userName, String repoName) {
         Repository repo = apiClient.getRepositoryDetails(userName, repoName);
+        return Optional.ofNullable(buildRepositoryDTO(repo));
+    }
 
-        return RepositoryDTO.builder()
-                .fullName(repo.getFullName())
-                .description(repo.getDescription())
-                .cloneUrl(repo.getCloneUrl())
-                .stars(repo.getStargazersCount())
-                .createdAt(repo.getCreatedAt())
-                .build();
+    private RepositoryDTO buildRepositoryDTO(Repository repo) {
+        return repo != null
+                ? RepositoryDTO.builder()
+                        .fullName(repo.getFullName())
+                        .description(repo.getDescription())
+                        .cloneUrl(repo.getCloneUrl())
+                        .stars(repo.getStargazersCount())
+                        .createdAt(repo.getCreatedAt())
+                        .build()
+                : null;
     }
 
 }

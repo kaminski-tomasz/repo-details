@@ -2,29 +2,33 @@ package pl.allegro.repodetails.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
-import pl.allegro.repodetails.service.dto.RepositoryDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import pl.allegro.repodetails.service.RepositoryService;
+import pl.allegro.repodetails.service.dto.RepositoryDTO;
+
+import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@RunWith(JUnitParamsRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RepositoryControllerIT {
 
@@ -34,61 +38,53 @@ public class RepositoryControllerIT {
     static class ContextConfig {
     }
 
+    @ClassRule
+    public static final SpringClassRule SCR = new SpringClassRule();
+
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
     @LocalServerPort
     private int port;
 
     @MockBean
     private RepositoryService repositoryService;
 
-    private RepositoryDTO EXPECTED_DTO = RepositoryDTO.builder()
-            .fullName("myRepo")
-            .build();
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
     @Before
     public void setUp() {
         RestAssured.port = port;
+    }
+
+    @Test
+    @Parameters({"repoName", "repoName.a", "name-with-several-parts"})
+    public void shouldCallServiceWithCorrectParameters(String repoName) {
 
         when(repositoryService.getRepositoryDetails(anyString(), anyString()))
-                .thenReturn(EXPECTED_DTO);
-    }
+                .thenReturn(Optional.of(new RepositoryDTO()));
 
-    @Test
-    public void shouldTestWithRestAssuredBDDApproach() {
         given()
                 .header("Accept-Encoding", "application/json")
-                .when()
-                .get("/repository/userName/repoName")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("fullName", equalTo("myRepo"));
+        .when()
+                .get("/repositories/user/" + repoName)
+        .then()
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON);
+
+        verify(repositoryService).getRepositoryDetails("user", repoName);
     }
 
     @Test
-    public void shouldTestWithRestAssuredRegularApproach() {
-        // when
-        Response response =
-                given().
-                        header("Accept-Encoding", "application/json").
-                        when().
-                        get("/repository/userName/repoName");
-        // then
-        assertThat(response.contentType())
-                .isEqualTo("application/json;charset=UTF-8");
-        assertThat(response.statusCode())
-                .isEqualTo(200);
-        assertThat(response.body().jsonPath().getString("fullName"))
-                .isEqualTo("myRepo");
-    }
+    public void shouldReturn404WhenNoRepositoryFound() {
 
-    @Test
-    public void shouldTestWithRestTemplate() {
+        when(repositoryService.getRepositoryDetails(anyString(), anyString()))
+                .thenReturn(Optional.empty());
 
-        String body = restTemplate.getForObject(
-                "/repository/userName/repoName", String.class);
-        assertThat(body).contains("myRepo");
+        given()
+                .header("Accept-Encoding", "application/json")
+        .when()
+                .get("/repositories/user/nonExistingRepo")
+        .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.JSON);
     }
 }

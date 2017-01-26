@@ -6,6 +6,9 @@ import pl.allegro.repodetails.github.GitHubApiClient;
 import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static pl.allegro.repodetails.service.dto.RepositoryDTOAssert.assertThat;
@@ -32,15 +35,28 @@ public class RepositoryServiceTest {
     }
 
     @Test
+    public void shouldReturnEmptyOptionalWhenNoRepositoryWasPresent() {
+
+        when(gitHubApiClient.getRepositoryDetails(USER_NAME, REPO_NAME))
+                .thenReturn(null);
+
+        Optional<RepositoryDTO> resultDTO =
+                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME);
+
+        assertThat(resultDTO).isNotNull().isNotPresent();
+    }
+
+    @Test
     public void shouldReturnCorrectRepositoryDTO() {
 
         when(gitHubApiClient.getRepositoryDetails(USER_NAME, REPO_NAME))
                 .thenReturn(REPOSITORY);
 
-        RepositoryDTO resultDTO =
+        Optional<RepositoryDTO> resultDTO =
                 repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME);
 
-        assertThat(resultDTO)
+        assertThat(resultDTO).isPresent();
+        assertThat(resultDTO.get())
                 .hasFullName(REPOSITORY.getFullName())
                 .hasDescription(REPOSITORY.getDescription())
                 .hasCloneUrl(REPOSITORY.getCloneUrl())

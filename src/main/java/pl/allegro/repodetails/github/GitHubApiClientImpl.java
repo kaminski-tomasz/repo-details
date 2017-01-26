@@ -1,8 +1,11 @@
 package pl.allegro.repodetails.github;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.allegro.repodetails.github.domain.Repository;
 
+@Service
 class GitHubApiClientImpl implements GitHubApiClient {
 
     private static final String REPOS_METHOD = "repos";
@@ -10,7 +13,9 @@ class GitHubApiClientImpl implements GitHubApiClient {
     private RestTemplate restTemplate;
     private String apiUrl;
 
-    GitHubApiClientImpl(RestTemplate restTemplate, String apiHost, int apiPort) {
+    GitHubApiClientImpl(RestTemplate restTemplate,
+                        @Value("${github.api.host}") String apiHost,
+                        @Value("${github.api.port}") int apiPort) {
         this.restTemplate = restTemplate;
         this.apiUrl = apiHost + ":" + apiPort;
     }

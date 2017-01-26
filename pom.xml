@@ -26,6 +26,8 @@
 		<assertj-generator.version>2.0.0</assertj-generator.version>
 		<restito.version>0.9.0</restito.version>
 		<guava.version>21.0</guava.version>
+		<JUnitParams.version>1.0.6</JUnitParams.version>
+		<assertj-core.version>3.6.2</assertj-core.version>
 	</properties>
 
 	<dependencies>
@@ -47,6 +49,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.assertj</groupId>
+					<artifactId>assertj-core</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -59,6 +73,12 @@
 			<groupId>com.xebialabs.restito</groupId>
 			<artifactId>restito</artifactId>
 			<version>${restito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+			<version>${JUnitParams.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

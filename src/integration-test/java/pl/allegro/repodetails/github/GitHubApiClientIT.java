@@ -7,10 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 import pl.allegro.repodetails.StubServerDependend;
+import pl.allegro.repodetails.TestUtils;
 import pl.allegro.repodetails.github.domain.Repository;
-
-import java.io.IOException;
-import java.net.URL;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.*;
@@ -20,11 +18,13 @@ import static pl.allegro.repodetails.github.domain.RepositoryAssert.assertThat;
 public class GitHubApiClientIT extends StubServerDependend {
 
     private GitHubApiClient apiClient;
+    private String apiResponse;
 
     @Before
     public void setUp() throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-        apiClient = new GitHubApiClientImpl(restTemplate, "http://localhost", server.getPort());
+        apiResponse = TestUtils.loadFileContent("github-api-response.json");
+        apiClient = new GitHubApiClientImpl(
+                new RestTemplate(), "http://localhost", server.getPort());
     }
 
     @Test
@@ -32,9 +32,7 @@ public class GitHubApiClientIT extends StubServerDependend {
     public void shouldReadGithubRepositoryDetails() {
 
         whenHttp(server).match(uri("/repos/octokit/octokit.rb"))
-                .then(ok(),
-                        stringContent(loadResponse("github-api-response.json")),
-                        contentType("application/json"));
+                .then(ok(), stringContent(apiResponse), contentType("application/json"));
 
         Repository repo = apiClient.getRepositoryDetails("octokit", "octokit.rb");
 
@@ -44,15 +42,5 @@ public class GitHubApiClientIT extends StubServerDependend {
                 .hasCloneUrl("https://github.com/octokit/octokit.rb.git")
                 .hasStargazersCount(2512)
                 .hasCreatedAt("2009-12-10T21:41:49Z");
-
-    }
-
-    private String loadResponse(String resourceName) {
-        URL url = Resources.getResource(resourceName);
-        try {
-            return Resources.toString(url, Charsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -6,15 +6,13 @@ import pl.allegro.repodetails.github.domain.Repository;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static pl.allegro.repodetails.github.domain.RepositoryAssert.assertThat;
 
 public class GitHubApiClientTest {
 
     private static final String API_HOST = "http://api.host";
-    private static final int    API_PORT = 80;
+    private static final int API_PORT = 80;
     private static final String REPOS_METHOD = "repos";
     private static final String USER_NAME = "userName";
     private static final String REPO_NAME = "repoName";
