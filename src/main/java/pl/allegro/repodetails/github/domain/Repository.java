@@ -3,7 +3,7 @@ package pl.allegro.repodetails.github.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import pl.allegro.repodetails.github.OffsetDateTimeDeserializer;
+import pl.allegro.repodetails.datetime.OffsetDateTimeDeserializer;
 
 import java.time.OffsetDateTime;
 
@@ -28,9 +28,6 @@ public class Repository {
 
     @JsonProperty("stargazers_count")
     private int stargazersCount;
-
-    public Repository() {
-    }
 
     public static RepositoryBuilder builder() {
         return new RepositoryBuilder();

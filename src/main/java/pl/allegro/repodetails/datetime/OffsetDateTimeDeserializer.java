@@ -1,4 +1,4 @@
-package pl.allegro.repodetails.github;
+package pl.allegro.repodetails.datetime;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -7,9 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.node.TextNode;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 public class OffsetDateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
 
@@ -19,11 +17,6 @@ public class OffsetDateTimeDeserializer extends JsonDeserializer<OffsetDateTime>
         ObjectCodec codec = jp.getCodec();
         TextNode node = codec.readTree(jp);
         String dateString = node.textValue();
-        return getOffsetDateTime(dateString);
-    }
-
-    OffsetDateTime getOffsetDateTime(String dateString) {
-        Instant instant = Instant.parse(dateString);
-        return OffsetDateTime.ofInstant(instant, ZoneOffset.UTC);
+        return DateTimeUtils.getOffsetDateTime(dateString);
     }
 }

@@ -13,9 +13,11 @@ class GitHubApiClientImpl implements GitHubApiClient {
     private RestTemplate restTemplate;
     private String apiUrl;
 
-    GitHubApiClientImpl(RestTemplate restTemplate,
-                        @Value("${github.api.host}") String apiHost,
-                        @Value("${github.api.port}") int apiPort) {
+    GitHubApiClientImpl(
+            RestTemplate restTemplate,
+            @Value("${github.api.host}") String apiHost,
+            @Value("${github.api.port}") int apiPort
+    ) {
         this.restTemplate = restTemplate;
         this.apiUrl = apiHost + ":" + apiPort;
     }

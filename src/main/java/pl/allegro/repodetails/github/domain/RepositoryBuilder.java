@@ -11,13 +11,6 @@ public final class RepositoryBuilder {
     private String cloneUrl;
     private int stargazersCount;
 
-    public RepositoryBuilder() {
-    }
-
-    public static RepositoryBuilder aRepository() {
-        return new RepositoryBuilder();
-    }
-
     public RepositoryBuilder name(String name) {
         this.name = name;
         return this;

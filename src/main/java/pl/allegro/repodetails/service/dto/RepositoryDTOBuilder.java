@@ -8,13 +8,6 @@ public final class RepositoryDTOBuilder {
     private int stars;
     private String createdAt;
 
-    RepositoryDTOBuilder() {
-    }
-
-    public static RepositoryDTOBuilder aRepositoryDTO() {
-        return new RepositoryDTOBuilder();
-    }
-
     public RepositoryDTOBuilder fullName(String fullName) {
         this.fullName = fullName;
         return this;

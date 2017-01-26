@@ -1,19 +1,16 @@
 package pl.allegro.repodetails.service;
 
 import org.springframework.stereotype.Service;
+import pl.allegro.repodetails.datetime.DateTimeUtils;
 import pl.allegro.repodetails.github.GitHubApiClient;
 import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 
 @Service
-public class RepositoryServiceImpl implements RepositoryService {
-
-    private static final String DATE_TIME_PATTERN = "dd MMMM uuuu, HH:mm:ss O";
+class RepositoryServiceImpl implements RepositoryService {
 
     private GitHubApiClient apiClient;
 
@@ -24,8 +21,9 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Override
     public Optional<RepositoryDTO> getRepositoryDetails(
             String userName, String repoName, Locale locale) {
-        Repository repo = apiClient.getRepositoryDetails(userName, repoName);
-        return Optional.ofNullable(buildLocalizedRepositoryDTO(repo, locale));
+        Repository repository = apiClient.getRepositoryDetails(userName, repoName);
+        RepositoryDTO repositoryDTO = buildLocalizedRepositoryDTO(repository, locale);
+        return Optional.ofNullable(repositoryDTO);
     }
 
     private RepositoryDTO buildLocalizedRepositoryDTO(
@@ -35,7 +33,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         }
         RepositoryDTO repositoryDTO = buildRepositoryDTO(repository);
         if (repository.getCreatedAt() != null) {
-            String formattedDate = formatDateTime(repository.getCreatedAt(), locale);
+            String formattedDate = DateTimeUtils.formatDateTime(repository.getCreatedAt(), locale);
             repositoryDTO.setCreatedAt(formattedDate);
         }
         return repositoryDTO;
@@ -48,11 +46,5 @@ public class RepositoryServiceImpl implements RepositoryService {
                     .cloneUrl(repo.getCloneUrl())
                     .stars(repo.getStargazersCount())
                     .build();
-    }
-
-    private String formatDateTime(OffsetDateTime dateTime, Locale locale) {
-        return dateTime == null ? null : DateTimeFormatter
-                .ofPattern(DATE_TIME_PATTERN, locale)
-                .format(dateTime);
     }
 }

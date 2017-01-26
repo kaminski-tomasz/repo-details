@@ -33,12 +33,7 @@ public class RepositoryServiceTest {
             .build();
 
     private GitHubApiClient gitHubApiClient = mock(GitHubApiClient.class);
-    private RepositoryService repositoryService;
-
-    @Before
-    public void setUp() {
-        repositoryService = new RepositoryServiceImpl(gitHubApiClient);
-    }
+    private RepositoryService repositoryService = new RepositoryServiceImpl(gitHubApiClient);
 
     @Test
     public void shouldReturnEmptyOptionalWhenNoRepositoryWasPresent() {
