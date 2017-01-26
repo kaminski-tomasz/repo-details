@@ -6,6 +6,8 @@ import pl.allegro.repodetails.github.GitHubApiClient;
 import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
+import java.time.OffsetDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,13 +19,14 @@ public class RepositoryServiceTest {
 
     private static final String USER_NAME = "octokit";
     private static final String REPO_NAME = "octokit.rb";
+    private static final Locale USER_LOCALE = Locale.ENGLISH;
 
     private static final Repository REPOSITORY = Repository.builder()
             .fullName("anyRepository")
             .description("repoDescription")
             .cloneUrl("someCloneURL")
             .stargazersCount(1024)
-            .createdAt("2009-12-10T21:41:49Z")
+            .createdAt(OffsetDateTime.parse("2009-12-10T21:41:49Z"))
             .build();
 
     private GitHubApiClient gitHubApiClient = mock(GitHubApiClient.class);
@@ -41,7 +44,7 @@ public class RepositoryServiceTest {
                 .thenReturn(null);
 
         Optional<RepositoryDTO> resultDTO =
-                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME);
+                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);
 
         assertThat(resultDTO).isNotNull().isNotPresent();
     }
@@ -53,14 +56,25 @@ public class RepositoryServiceTest {
                 .thenReturn(REPOSITORY);
 
         Optional<RepositoryDTO> resultDTO =
-                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME);
+                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);
 
-        assertThat(resultDTO).isPresent();
         assertThat(resultDTO.get())
                 .hasFullName(REPOSITORY.getFullName())
                 .hasDescription(REPOSITORY.getDescription())
                 .hasCloneUrl(REPOSITORY.getCloneUrl())
-                .hasStars(REPOSITORY.getStargazersCount())
-                .hasCreatedAt(REPOSITORY.getCreatedAt());   // fixme
+                .hasStars(REPOSITORY.getStargazersCount());
+    }
+
+    @Test
+    public void shouldReturnCorrectCreatedDateTimeDTO() {
+
+        when(gitHubApiClient.getRepositoryDetails(USER_NAME, REPO_NAME))
+                .thenReturn(REPOSITORY);
+
+        Optional<RepositoryDTO> resultDTO =
+                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);
+
+        assertThat(resultDTO.get())
+                .hasCreatedAt(REPOSITORY.getCreatedAt().toString());   // FIXME
     }
 }

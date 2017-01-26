@@ -1,7 +1,5 @@
 package pl.allegro.repodetails.github;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.xebialabs.restito.support.junit.NeedsServer;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +7,8 @@ import org.springframework.web.client.RestTemplate;
 import pl.allegro.repodetails.StubServerDependend;
 import pl.allegro.repodetails.TestUtils;
 import pl.allegro.repodetails.github.domain.Repository;
+
+import java.time.OffsetDateTime;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.*;
@@ -41,6 +41,6 @@ public class GitHubApiClientIT extends StubServerDependend {
                 .hasDescription("Ruby toolkit for the GitHub API")
                 .hasCloneUrl("https://github.com/octokit/octokit.rb.git")
                 .hasStargazersCount(2512)
-                .hasCreatedAt("2009-12-10T21:41:49Z");
+                .hasCreatedAt(OffsetDateTime.parse("2009-12-10T21:41:49Z"));
     }
 }

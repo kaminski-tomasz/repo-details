@@ -5,6 +5,7 @@ import pl.allegro.repodetails.github.GitHubApiClient;
 import pl.allegro.repodetails.github.domain.Repository;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -17,7 +18,7 @@ class RepositoryServiceImpl implements RepositoryService {
     }
 
     @Override
-    public Optional<RepositoryDTO> getRepositoryDetails(String userName, String repoName) {
+    public Optional<RepositoryDTO> getRepositoryDetails(String userName, String repoName, Locale locale) {
         Repository repo = apiClient.getRepositoryDetails(userName, repoName);
         return Optional.ofNullable(buildRepositoryDTO(repo));
     }
@@ -29,7 +30,7 @@ class RepositoryServiceImpl implements RepositoryService {
                         .description(repo.getDescription())
                         .cloneUrl(repo.getCloneUrl())
                         .stars(repo.getStargazersCount())
-                        .createdAt(repo.getCreatedAt())
+                        .createdAt(repo.getCreatedAt().toString())
                         .build()
                 : null;
     }

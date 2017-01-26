@@ -2,7 +2,11 @@ package pl.allegro.repodetails.github.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
+import pl.allegro.repodetails.github.OffsetDateTimeDeserializer;
+
+import java.time.OffsetDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Repository {
@@ -15,7 +19,8 @@ public class Repository {
     private String description;
 
     @JsonProperty("created_at")
-    private String createdAt;
+    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+    private OffsetDateTime createdAt;
 
     @JsonProperty("clone_url")
     private String cloneUrl;
@@ -28,7 +33,7 @@ public class Repository {
 
     @Builder
     public Repository(String name, String fullName, String description,
-                      String createdAt, String cloneUrl, int stargazersCount) {
+                      OffsetDateTime createdAt, String cloneUrl, int stargazersCount) {
         this.name = name;
         this.fullName = fullName;
         this.description = description;
@@ -61,11 +66,11 @@ public class Repository {
         this.description = description;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
