@@ -21,12 +21,15 @@ public class RepositoryServiceTest {
     private static final String REPO_NAME = "octokit.rb";
     private static final Locale USER_LOCALE = Locale.ENGLISH;
 
+    private static final String OFFSET_DATE_TIME = "2009-12-10T21:41:49Z";
+    private static final String FORMATTED_DATE_TIME = "10 December 2009, 21:41:49 GMT";
+
     private static final Repository REPOSITORY = Repository.builder()
-            .fullName("anyRepository")
-            .description("repoDescription")
-            .cloneUrl("someCloneURL")
+            .fullName("name")
+            .description("description")
+            .cloneUrl("url")
             .stargazersCount(1024)
-            .createdAt(OffsetDateTime.parse("2009-12-10T21:41:49Z"))
+            .createdAt(OffsetDateTime.parse(OFFSET_DATE_TIME))
             .build();
 
     private GitHubApiClient gitHubApiClient = mock(GitHubApiClient.class);
@@ -74,7 +77,18 @@ public class RepositoryServiceTest {
         Optional<RepositoryDTO> resultDTO =
                 repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);
 
-        assertThat(resultDTO.get())
-                .hasCreatedAt(REPOSITORY.getCreatedAt().toString());   // FIXME
+        assertThat(resultDTO.get()).hasCreatedAt(FORMATTED_DATE_TIME);
+    }
+
+    @Test
+    public void shouldIgnoreCreatedDateWhenNoOneWasProvided() {
+
+        when(gitHubApiClient.getRepositoryDetails(USER_NAME, REPO_NAME))
+                .thenReturn(Repository.builder().createdAt(null).build());
+
+        Optional<RepositoryDTO> resultDTO =
+                repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);
+
+        assertThat(resultDTO.get().getCreatedAt()).isNull();
     }
 }
