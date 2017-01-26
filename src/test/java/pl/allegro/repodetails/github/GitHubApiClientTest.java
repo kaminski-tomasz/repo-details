@@ -12,10 +12,10 @@ import static pl.allegro.repodetails.github.domain.RepositoryAssert.assertThat;
 public class GitHubApiClientTest {
 
     private static final String API_HOST = "http://api.host";
-    private static final int API_PORT = 80;
     private static final String REPOS_METHOD = "repos";
     private static final String USER_NAME = "userName";
     private static final String REPO_NAME = "repoName";
+    private static final int API_PORT = 80;
 
     private RestTemplate restTemplate = mock(RestTemplate.class);
 
@@ -26,7 +26,8 @@ public class GitHubApiClientTest {
 
         apiClient.getRepositoryDetails(USER_NAME, REPO_NAME);
 
-        String correctUrl = String.join("/", API_HOST + ":" + API_PORT, REPOS_METHOD, USER_NAME, REPO_NAME);
+        String correctUrl = String.join("/",
+                API_HOST + ":" + API_PORT, REPOS_METHOD, USER_NAME, REPO_NAME);
         verify(restTemplate).getForObject(correctUrl, Repository.class);
     }
 

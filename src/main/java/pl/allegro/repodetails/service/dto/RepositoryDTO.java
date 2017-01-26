@@ -1,9 +1,5 @@
 package pl.allegro.repodetails.service.dto;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Data
 public class RepositoryDTO {
 
     private String fullName;
@@ -15,13 +11,47 @@ public class RepositoryDTO {
     public RepositoryDTO() {
     }
 
-    @Builder
-    public RepositoryDTO(String fullName, String description,
-                         String cloneUrl, int stars, String createdAt) {
+    public static RepositoryDTOBuilder builder() {
+        return new RepositoryDTOBuilder();
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCloneUrl() {
+        return cloneUrl;
+    }
+
+    public void setCloneUrl(String cloneUrl) {
         this.cloneUrl = cloneUrl;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
         this.stars = stars;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 }

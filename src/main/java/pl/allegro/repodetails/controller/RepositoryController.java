@@ -19,10 +19,12 @@ public class RepositoryController {
     }
 
     @RequestMapping(value = "{userName}/{repoName:.*}")
-    public RepositoryDTO getRepositoryDetails(HttpServletRequest request,
-            @PathVariable String userName, @PathVariable String repoName
+    public RepositoryDTO getRepositoryDetails(
+            HttpServletRequest request,
+            @PathVariable String userName,
+            @PathVariable String repoName
     ) throws RepositoryNotFoundException {
         return repoService.getRepositoryDetails(userName, repoName, request.getLocale())
-                .orElseThrow(RepositoryNotFoundException::new);
+                          .orElseThrow(RepositoryNotFoundException::new);
     }
 }
