@@ -1,6 +1,8 @@
 # Description #
 
-This is simple REST service which returns details of given Github repository. Details includes:
+This is simple Spring Boot REST service which returns details of given Github repository. 
+
+Details includes:
 
 * full name of repository
 * description of repository
@@ -8,19 +10,18 @@ This is simple REST service which returns details of given Github repository. De
 * number of stargazers
 * date of creation formatted in requesters local date format
 
-# API usage #
+# API #
 
 The API of the service looks as follows:
 
 Request:
 ```
-#!text
+
 GET /repositories/{owner}/{repository-name}
 ```
 
 Response:
 ```
-#!json
 {
    "fullName": "...", 
    "description": "...", 
@@ -28,6 +29,36 @@ Response:
    "stars": 0, 
    "createdAt": "..."
 }
+```
+
+# Example #
+
+Request:
+```
+GET /repositories/octokit/octokit.rb
+```
+
+Response:
+```
+{
+  "fullName" : "octokit/octokit.rb",
+  "description" : "Ruby toolkit for the GitHub API",
+  "cloneUrl" : "https://github.com/octokit/octokit.rb.git",
+  "stars" : 2514,
+  "createdAt" : "10 grudnia 2009, 21:41:49 GMT"
+}
+```
+
+# Running #
+
+```
+$ mvn clean spring-boot:run
+```
+
+# Running tests #
+
+```
+$ mvn clean verify
 ```
 
 # GitHub API #
