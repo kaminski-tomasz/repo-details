@@ -10,9 +10,6 @@ import java.time.OffsetDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Repository {
 
-    @JsonProperty("name")
-    private String name;
-
     @JsonProperty("full_name")
     private String fullName;
 
@@ -31,14 +28,6 @@ public class Repository {
 
     public static RepositoryBuilder builder() {
         return new RepositoryBuilder();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getFullName() {

@@ -2,6 +2,7 @@ package pl.allegro.repodetails.github;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import pl.allegro.repodetails.github.domain.Repository;
 
@@ -24,7 +25,11 @@ class GitHubApiClientImpl implements GitHubApiClient {
 
     @Override
     public Repository getRepositoryDetails(String userName, String repoName) {
-        return restTemplate.getForObject(createUrl(userName, repoName), Repository.class);
+        try {
+            return restTemplate.getForObject(createUrl(userName, repoName), Repository.class);
+        } catch (HttpClientErrorException ex) {
+            return null;
+        }
     }
 
     private String createUrl(String userName, String repoName) {

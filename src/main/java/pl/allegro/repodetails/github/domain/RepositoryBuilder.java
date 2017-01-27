@@ -4,17 +4,11 @@ import java.time.OffsetDateTime;
 
 public final class RepositoryBuilder {
 
-    private String name;
     private String fullName;
     private String description;
     private OffsetDateTime createdAt;
     private String cloneUrl;
     private int stargazersCount;
-
-    public RepositoryBuilder name(String name) {
-        this.name = name;
-        return this;
-    }
 
     public RepositoryBuilder fullName(String fullName) {
         this.fullName = fullName;
@@ -43,7 +37,6 @@ public final class RepositoryBuilder {
 
     public Repository build() {
         Repository repository = new Repository();
-        repository.setName(name);
         repository.setFullName(fullName);
         repository.setDescription(description);
         repository.setCreatedAt(createdAt);

@@ -1,20 +1,14 @@
 package pl.allegro.repodetails.controller;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.rules.SpringClassRule;
-import org.springframework.test.context.junit4.rules.SpringMethodRule;
+import pl.allegro.repodetails.SpringContextDependend;
+import pl.allegro.repodetails.StubServerDependend;
 import pl.allegro.repodetails.service.RepositoryService;
 import pl.allegro.repodetails.service.dto.RepositoryDTO;
 
@@ -28,25 +22,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnitParamsRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RepositoryControllerIT {
-
-    @ClassRule
-    public static final SpringClassRule SCR = new SpringClassRule();
-
-    @Rule
-    public final SpringMethodRule springMethodRule = new SpringMethodRule();
-
-    @LocalServerPort
-    private int port;
+public class RepositoryControllerIT extends SpringContextDependend {
 
     @MockBean
     private RepositoryService repositoryService;
-
-    @Before
-    public void setUp() {
-        RestAssured.port = port;
-    }
 
     private static Object[][] getLocaleTestParameters() {
         return new Object[][] {

@@ -1,6 +1,8 @@
 package pl.allegro.repodetails.github;
 
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import pl.allegro.repodetails.github.domain.Repository;
 
@@ -41,5 +43,17 @@ public class GitHubApiClientTest {
         Repository repo = apiClient.getRepositoryDetails(USER_NAME, REPO_NAME);
 
         assertThat(repo).isEqualTo(expectedRepo);
+    }
+
+    @Test
+    public void shouldReturnNullIfNoRepositoryWasFound() {
+
+        when(restTemplate.getForObject(anyString(), any()))
+                .thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        GitHubApiClient apiClient = new GitHubApiClientImpl(restTemplate, API_HOST, API_PORT);
+
+        Repository repo = apiClient.getRepositoryDetails(USER_NAME, REPO_NAME);
+
+        assertThat(repo).isEqualTo(null);
     }
 }
