@@ -24,6 +24,7 @@ public class RepoDetailsApplicationIT extends SpringContextDependend {
                 .contentType(ContentType.JSON)
                 .body("fullName", equalTo("octokit/octokit.rb"))
                 .body("description", equalTo("Ruby toolkit for the GitHub API"))
+                .body("cloneUrl", equalTo("https://github.com/octokit/octokit.rb.git"))
                 .body("stars", greaterThan(2512))
                 .body("createdAt", equalTo("10 grudnia 2009, 21:41:49 GMT"));
     }
@@ -54,5 +55,4 @@ public class RepoDetailsApplicationIT extends SpringContextDependend {
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .contentType(ContentType.JSON);
     }
-
 }
