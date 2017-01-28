@@ -36,17 +36,6 @@ public class RepositoryControllerTest {
     }
 
     @Test
-    public void shouldCallServiceWithCorrectParameters() throws Exception {
-
-        when(repoService.getRepositoryDetails(anyString(), anyString(), any()))
-                .thenReturn(Optional.of(expectedDTO));
-
-        repoController.getRepositoryDetails(request, USER_NAME, REPO_NAME);
-
-        verify(repoService).getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);
-    }
-
-    @Test
     public void shouldReplyWithRepositoryDetails() throws Exception {
 
         when(repoService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE))
@@ -65,8 +54,7 @@ public class RepositoryControllerTest {
                 .thenReturn(Optional.empty());
 
         Throwable thrown = catchThrowable(() -> {
-            repoController.getRepositoryDetails(request, USER_NAME, REPO_NAME
-            );
+            repoController.getRepositoryDetails(request, USER_NAME, REPO_NAME);
         });
 
         assertThat(thrown).isInstanceOf(RepositoryNotFoundException.class);

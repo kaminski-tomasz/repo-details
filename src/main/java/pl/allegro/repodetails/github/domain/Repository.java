@@ -26,10 +26,6 @@ public class Repository {
     @JsonProperty("stargazers_count")
     private int stargazersCount;
 
-    public static RepositoryBuilder builder() {
-        return new RepositoryBuilder();
-    }
-
     public String getFullName() {
         return fullName;
     }

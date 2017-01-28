@@ -40,11 +40,11 @@ class RepositoryServiceImpl implements RepositoryService {
     }
 
     private RepositoryDTO buildRepositoryDTO(Repository repo) {
-        return RepositoryDTO.builder()
-                    .fullName(repo.getFullName())
-                    .description(repo.getDescription())
-                    .cloneUrl(repo.getCloneUrl())
-                    .stars(repo.getStargazersCount())
-                    .build();
+        RepositoryDTO repositoryDTO = new RepositoryDTO();
+        repositoryDTO.setFullName(repo.getFullName());
+        repositoryDTO.setDescription(repo.getDescription());
+        repositoryDTO.setCloneUrl(repo.getCloneUrl());
+        repositoryDTO.setStars(repo.getStargazersCount());
+        return repositoryDTO;
     }
 }

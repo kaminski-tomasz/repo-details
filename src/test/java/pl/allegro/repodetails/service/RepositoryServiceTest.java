@@ -1,6 +1,5 @@
 package pl.allegro.repodetails.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import pl.allegro.repodetails.github.GitHubApiClient;
 import pl.allegro.repodetails.github.domain.Repository;
@@ -13,6 +12,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static pl.allegro.repodetails.databuilders.RepositoryBuilder.aRepository;
 import static pl.allegro.repodetails.service.dto.RepositoryDTOAssert.assertThat;
 
 public class RepositoryServiceTest {
@@ -24,7 +24,7 @@ public class RepositoryServiceTest {
     private static final String OFFSET_DATE_TIME = "2009-12-10T21:41:49Z";
     private static final String FORMATTED_DATE_TIME = "10 December 2009, 21:41:49 GMT";
 
-    private static final Repository REPOSITORY = Repository.builder()
+    private static final Repository REPOSITORY = aRepository()
             .fullName("name")
             .description("description")
             .cloneUrl("url")
@@ -79,7 +79,7 @@ public class RepositoryServiceTest {
     public void shouldIgnoreCreatedDateWhenNoOneWasProvided() {
 
         when(gitHubApiClient.getRepositoryDetails(USER_NAME, REPO_NAME))
-                .thenReturn(Repository.builder().createdAt(null).build());
+                .thenReturn(aRepository().createdAt(null).build());
 
         Optional<RepositoryDTO> resultDTO =
                 repositoryService.getRepositoryDetails(USER_NAME, REPO_NAME, USER_LOCALE);

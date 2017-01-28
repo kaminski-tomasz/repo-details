@@ -1,4 +1,6 @@
-package pl.allegro.repodetails.github.domain;
+package pl.allegro.repodetails.databuilders;
+
+import pl.allegro.repodetails.github.domain.Repository;
 
 import java.time.OffsetDateTime;
 
@@ -9,6 +11,10 @@ public final class RepositoryBuilder {
     private OffsetDateTime createdAt;
     private String cloneUrl;
     private int stargazersCount;
+
+    public static RepositoryBuilder aRepository() {
+        return new RepositoryBuilder();
+    }
 
     public RepositoryBuilder fullName(String fullName) {
         this.fullName = fullName;
