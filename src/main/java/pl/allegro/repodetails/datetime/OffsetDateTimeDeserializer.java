@@ -12,10 +12,10 @@ import java.time.OffsetDateTime;
 public class OffsetDateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
 
     @Override
-    public OffsetDateTime deserialize(JsonParser jp, DeserializationContext dc)
+    public OffsetDateTime deserialize(JsonParser parser, DeserializationContext context)
             throws IOException {
-        ObjectCodec codec = jp.getCodec();
-        TextNode node = codec.readTree(jp);
+        ObjectCodec codec = parser.getCodec();
+        TextNode node = codec.readTree(parser);
         String dateString = node.textValue();
         return DateTimeUtils.getOffsetDateTime(dateString);
     }
