@@ -1,42 +1,50 @@
 package pl.allegro.repodetails.datetime;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.node.TextNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class OffsetDateTimeDeserializerTest {
 
     private static final String DATE_TIME_UTC = "2009-12-10T21:41:49Z";
 
-    private JsonParser parser = mock(JsonParser.class);
-    private TextNode textNode = mock(TextNode.class);
+    private ObjectMapper mapper;
+    private OffsetDateTimeDeserializer deserializer;
 
     @Before
-    public void setUp() throws Exception {
-        ObjectCodec codec = mock(ObjectCodec.class);
-        when(parser.getCodec()).thenReturn(codec);
-        when(codec.readTree(any())).thenReturn(textNode);
+    public void setup() {
+        mapper = new ObjectMapper();
+        deserializer = new OffsetDateTimeDeserializer();
     }
 
     @Test
     public void shouldDeserializeOffsetDateTime() throws Exception {
+        String json = String.format("{\"value\":\"%s\"}", DATE_TIME_UTC);
 
-        when(textNode.textValue()).thenReturn(DATE_TIME_UTC);
-        OffsetDateTimeDeserializer deserializer = new OffsetDateTimeDeserializer();
-
-        OffsetDateTime resultDate = deserializer.deserialize(parser,
-                mock(DeserializationContext.class));
+        OffsetDateTime resultDate = deserializeOffsetDateTime(json);
 
         assertThat(resultDate).isEqualTo(OffsetDateTime.parse(DATE_TIME_UTC));
+    }
+
+    private OffsetDateTime deserializeOffsetDateTime(String json)
+            throws IOException {
+        InputStream stream = new ByteArrayInputStream(
+                json.getBytes(StandardCharsets.UTF_8));
+        JsonParser parser = mapper.getFactory().createParser(stream);
+        DeserializationContext context = mapper.getDeserializationContext();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        return deserializer.deserialize(parser, context);
     }
 }
