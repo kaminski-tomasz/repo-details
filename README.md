@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/kaminski-tomasz/repo-details.svg?branch=master)](https://github.com/kaminski-tomasz/repo-details)
+[![Coverage Status](https://coveralls.io/repos/github/kaminski-tomasz/repo-details/badge.svg?branch=master)](https://coveralls.io/github/kaminski-tomasz/repo-details?branch=master)
 
 # Description #
 
