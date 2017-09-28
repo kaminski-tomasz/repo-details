@@ -1,4 +1,4 @@
 language: java
 jdk:
   - oraclejdk8
-script: mvn clean verify -Pcoveralls -DrepoToken=${repoToken}
+script: mvn clean test -Pcoveralls -DrepoToken=${repoToken}
