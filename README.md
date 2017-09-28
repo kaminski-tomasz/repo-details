@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kaminski-tomasz/repo-details.svg?branch=master)](https://github.com/kaminski-tomasz/repo-details)
+
 # Description #
 
 This is simple Spring Boot REST service which returns details of given Github repository. 
