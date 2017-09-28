@@ -16,7 +16,6 @@ The API of the service looks as follows:
 
 Request:
 ```
-
 GET /repositories/{owner}/{repository-name}
 ```
 
